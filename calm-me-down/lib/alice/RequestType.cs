@@ -1,4 +1,4 @@
-﻿namespace hello.lib
+﻿namespace hello.lib.alice
 {
     public enum RequestType
     {

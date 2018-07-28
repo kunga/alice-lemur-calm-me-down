@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace hello.lib
+namespace hello.lib.alice
 {
     public class RequestModel
     {

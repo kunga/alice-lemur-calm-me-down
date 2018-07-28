@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace hello.lib
+namespace hello.lib.alice
 {
     public class MetaModel
     {

@@ -184,19 +184,31 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\AliceController.cs" />
+    <Compile Include="Controllers\RaccoonController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="lib\AliceRequest.cs" />
-    <Compile Include="lib\AliceResponse.cs" />
-    <Compile Include="lib\ButtonModel.cs" />
-    <Compile Include="lib\Extensions.cs" />
-    <Compile Include="lib\MetaModel.cs" />
-    <Compile Include="lib\RequestModel.cs" />
-    <Compile Include="lib\RequestType.cs" />
-    <Compile Include="lib\ResponseModel.cs" />
-    <Compile Include="lib\SessionModel.cs" />
+    <Compile Include="lib\alice\AliceRequest.cs" />
+    <Compile Include="lib\alice\AliceResponse.cs" />
+    <Compile Include="lib\alice\ButtonModel.cs" />
+    <Compile Include="lib\alice\Extensions.cs" />
+    <Compile Include="lib\alice\MetaModel.cs" />
+    <Compile Include="lib\alice\RequestModel.cs" />
+    <Compile Include="lib\alice\RequestType.cs" />
+    <Compile Include="lib\alice\ResponseModel.cs" />
+    <Compile Include="lib\alice\SessionModel.cs" />
+    <Compile Include="lib\data\FileHelper.cs" />
+    <Compile Include="lib\processors\FinishingQuestionsProcessor.cs" />
+    <Compile Include="lib\processors\GoodByeProcessor.cs" />
+    <Compile Include="lib\processors\ImagesProcessor.cs" />
+    <Compile Include="lib\processors\IProcessor.cs" />
+    <Compile Include="lib\processors\LoopedProcessor.cs" />
+    <Compile Include="lib\processors\QuotesProcessor.cs" />
+    <Compile Include="lib\data\QuotesReader.cs" />
+    <Compile Include="lib\processors\SongsProcessor.cs" />
+    <Compile Include="lib\processors\WelcomeProcessor.cs" />
+    <Compile Include="lib\processors\RacconProcessor.cs" />
+    <Compile Include="lib\RaccoonState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -256,7 +268,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
