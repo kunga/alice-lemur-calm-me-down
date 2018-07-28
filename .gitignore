@@ -259,3 +259,4 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+/calm-me-down/Properties/PublishProfiles/calm-me-down20180728091200 - Web Deploy.pubxml
