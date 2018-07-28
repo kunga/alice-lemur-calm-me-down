@@ -10,7 +10,7 @@
           {
               Response = new ResponseModel
               {
-                  Text = text,
+                  Text = text.Replace("+", "").Replace("- ", ""),
                   Tts = text,
                   EndSession = endSession
               },

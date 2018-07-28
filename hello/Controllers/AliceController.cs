@@ -13,8 +13,34 @@ namespace hello.Controllers
         public static List<string> Tweets = TweetsReader.Get();
         private static Random random = new Random();
 
+        private static int counterImages = 0; 
+        private static List<ResponseCard> images = new List<ResponseCard>
+        {
+            //new ResponseCard("Нужно узбагоится.", "997614/c8d1a7b04748167085f4"),
+            new ResponseCard("Воу, воу. Позбагойнее.", "965417/4d49286fbb9436f0ff43"),
+            new ResponseCard("Просто узбагойся. И не реви.", "1030494/7083120723428737f910"),
+            new ResponseCard("Охренеть как всё сложно.", "213044/a5d146542e1351a68264"),
+            new ResponseCard("Узбагоин узбагаивает.", "937455/8d702c71919063b1d4a2"),
+        };
+
+        private static int counterAns = 0;
+        private static List<string> answers = new List<string>
+        {
+            //"Надеюсь, я не смутила тебя?",
+            "Тебе л+учше?",
+            "Я помогла тебе?"
+        };
+
         [Route("alice"), HttpPost]
         public AliceResponse Post([FromBody] AliceRequest req)
+        {
+            lock (States)
+            {
+                return Answer(req);
+            }
+        }
+
+        private AliceResponse Answer(AliceRequest req)
         {
             if (req.Session.New || !States.ContainsKey(req.Session.SessionId))
                 States[req.Session.SessionId] = AliceState.Intro;
@@ -26,17 +52,14 @@ namespace hello.Controllers
             switch (state)
             {
                 case AliceState.Intro:
-                    result = req.Reply("Привет, я лемур успокоин, расскажи мне что с тобой случилось, и я постараюсь поддержать тебя.");
+                    result = req.Reply(
+                        "Привет, я лемур узбого+ин, расскажи мне что с тобой случилось, и я постараюсь поддержать тебя.");
                     newState = AliceState.Start;
                     break;
 
                 case AliceState.Start:
-                    result = req.Reply(Tweets[random.Next(Tweets.Count)] + " Тебе лучше?");
-                    newState = AliceState.Asking;
-                    break;
-
                 case AliceState.Quote:
-                    result = req.Reply(Tweets[random.Next(Tweets.Count)] + " Тебе лучше?");
+                    result = req.Reply(GetBestQuote(req.Request.OriginalUtterance) + $" - - - - - - - - - \n{answers[counterAns++ % answers.Count]}");
                     newState = AliceState.Asking;
                     break;
 
@@ -49,7 +72,9 @@ namespace hello.Controllers
                     }
                     else
                     {
-                        result = req.Reply("Тогда держи мемасик");
+                        var card = images[counterImages++ % images.Count];
+                        result = req.Reply(card.Title);
+                        result.Response.Card = card;
                         newState = AliceState.Start;
                     }
                     break;
@@ -60,6 +85,67 @@ namespace hello.Controllers
 
             States[req.Session.SessionId] = newState;
             return result;
+        }
+
+        private string GetBestQuote(string text)
+        {
+            var bestScore = 0;
+            var best = Tweets[random.Next(Tweets.Count)];
+
+            foreach (var quote in Tweets)
+            {
+                var cur = GetScore(quote, text);
+                if (cur > bestScore)
+                {
+                    bestScore = cur;
+                    best = quote;
+                }
+            }
+
+            return best;
+        }
+
+        private int GetScore(string a, string b)
+        {
+            var wa = SplitToWords(a);
+            var wb = SplitToWords(b);
+
+            var result = 0;
+
+            foreach (var x in wa)
+            {
+                foreach (var y in wb)
+                {
+                    int len;
+                    for (len = 0; len < x.Length && len < y.Length && x[len] == y[len]; len++) {}
+
+                    result += len * len;
+                }
+            }
+
+            return result;
+        }
+
+        private IEnumerable<string> SplitToWords(string s)
+        {
+            string cur = "";
+            s += " ";
+
+            s = s.ToLower();
+
+            for (int i = 0; i < s.Length; i++)
+            {
+                char c = s[i];
+                if ('а' <= c && c <= 'я')
+                    cur += c;
+                else
+                {
+                    if (!string.IsNullOrWhiteSpace(cur))
+                        yield return cur;
+
+                    cur = "";
+                }
+            }
         }
     }
 
@@ -82,9 +168,16 @@ namespace hello.Controllers
             var items = text.Split(new [] {"@@@@@"}, StringSplitOptions.RemoveEmptyEntries).ToList();
             items = items
                 .Where(s => s.Contains("#мудрые_мысли"))
-                .Select(s => s.Split(new string[] { "#мудрые_мысли" }, StringSplitOptions.RemoveEmptyEntries)[0].Trim())
+                .Select(Process)
                 .ToList();
-            return items;
+             return items;
+        }
+
+        private static string Process(string s)
+        {
+            s = s.Split(new[] { "#мудрые_мысли" }, StringSplitOptions.RemoveEmptyEntries)[0].Trim();
+            s = s.Split('\n')[0].Trim();
+            return s;
         }
     }
 }

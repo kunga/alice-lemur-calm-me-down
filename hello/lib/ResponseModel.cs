@@ -15,5 +15,29 @@ namespace hello.lib
 
         [JsonProperty("buttons")]
         public ButtonModel[] Buttons { get; set; }
+
+        [JsonProperty("card")]
+        public ResponseCard Card { get; set; }
+    }
+
+    public class ResponseCard
+    {
+        [JsonProperty("type")]
+        public string Type = "BigImage";
+
+        [JsonProperty("title")]
+        public readonly string Title;
+
+        [JsonProperty("image_id")]
+        public string ImageId;
+
+        [JsonProperty("description")]
+        public string Descriptin = "";
+
+        public ResponseCard(string title, string imageId)
+        {
+            Title = title;
+            ImageId = imageId;
+        }
     }
 }
