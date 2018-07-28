@@ -10,20 +10,23 @@ namespace hello.Controllers
     public class AliceController : ApiController
     {
         public static Dictionary<string, AliceState> States = new Dictionary<string, AliceState>();
+        public static Dictionary<string, int> Music = new Dictionary<string, int>();
         public static List<string> Tweets = TweetsReader.Get();
         private static Random random = new Random();
 
-        private static int counterImages = 0; 
+        private static int counterImages = 0;
+
         private static List<ResponseCard> images = new List<ResponseCard>
         {
-            //new ResponseCard("Нужно узбагоится.", "997614/c8d1a7b04748167085f4"),
-            new ResponseCard("Воу, воу. Позбагойнее.", "965417/4d49286fbb9436f0ff43"),
+            new ResponseCard("Нужно узбагоится.", "997614/c8d1a7b04748167085f4"),
             new ResponseCard("Просто узбагойся. И не реви.", "1030494/7083120723428737f910"),
             new ResponseCard("Охренеть как всё сложно.", "213044/a5d146542e1351a68264"),
             new ResponseCard("Узбагоин узбагаивает.", "937455/8d702c71919063b1d4a2"),
+            new ResponseCard("Воу, воу. Позбагойнее.", "965417/4d49286fbb9436f0ff43"),
         };
 
         private static int counterAns = 0;
+
         private static List<string> answers = new List<string>
         {
             //"Надеюсь, я не смутила тебя?",
@@ -42,10 +45,18 @@ namespace hello.Controllers
 
         private AliceResponse Answer(AliceRequest req)
         {
-            if (req.Session.New || !States.ContainsKey(req.Session.SessionId))
-                States[req.Session.SessionId] = AliceState.Intro;
+            var sid = req.Session.SessionId;
+            if (req.Session.New || !States.ContainsKey(sid))
+            {
+                States[sid] = AliceState.Intro;
+                counterAns = 0;
+                counterImages = 0;
+            }
 
-            var state = States[req.Session.SessionId];
+            if (!Music.ContainsKey(sid))
+                Music[sid] = 0;
+
+            var state = States[sid];
             var result = req.Reply("я вас не поняла");
             var newState = AliceState.Start;
 
@@ -64,17 +75,34 @@ namespace hello.Controllers
                     break;
 
                 case AliceState.Asking:
-                    if (req.Request.Command.Contains("да"))
+                    if (req.Request.Command.Trim().ToLower() == "да")
                     {
                         result = req.Reply("Я рада, что смогла помочь.", true);
-                        States.Remove(req.Session.SessionId);
+                        States.Remove(sid);
                         return result;
                     }
                     else
                     {
+                        if (Music[sid]++ == 1)
+                        {
+                            result = req.Reply("Может послушаешь музыку?");
+                            result.Response.Buttons = new[]
+                            {
+                                new ButtonModel
+                                {
+                                    Url = "https://music.yandex.ru/album/1317857/track/12139823",
+                                    Title = "Like Lions - All Be Fine"
+                                }
+                            };
+
+                            newState = AliceState.Asking;
+                            break;
+                        }
+
                         var card = images[counterImages++ % images.Count];
                         result = req.Reply(card.Title);
                         result.Response.Card = card;
+                        //result.Response.Buttons = new[] {new ButtonModel() {Title = "👍" }, new ButtonModel() { Title = "👎" } };
                         newState = AliceState.Start;
                     }
                     break;
@@ -83,7 +111,7 @@ namespace hello.Controllers
                     throw new ArgumentOutOfRangeException();
             }
 
-            States[req.Session.SessionId] = newState;
+            States[sid] = newState;
             return result;
         }
 
@@ -155,6 +183,7 @@ namespace hello.Controllers
         Start,
         Quote,
         Asking,
+        Music,
         Picture,
         Finished
     }
