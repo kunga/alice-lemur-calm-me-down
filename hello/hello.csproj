@@ -188,7 +188,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="lib\Class1.cs" />
+    <Compile Include="lib\AliceRequest.cs" />
+    <Compile Include="lib\AliceResponse.cs" />
+    <Compile Include="lib\ButtonModel.cs" />
+    <Compile Include="lib\Extensions.cs" />
+    <Compile Include="lib\MetaModel.cs" />
+    <Compile Include="lib\RequestModel.cs" />
+    <Compile Include="lib\RequestType.cs" />
+    <Compile Include="lib\ResponseModel.cs" />
+    <Compile Include="lib\SessionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
