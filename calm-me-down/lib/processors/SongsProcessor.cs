@@ -23,7 +23,7 @@ namespace hello.lib.processors
         {
         }
 
-        public AliceResponse Process(AliceRequest request, RaccoonState state)
+        public AliceResponse Process(AliceRequest request, LemurState state)
         {
             var response = request.Reply("Может послушаешь музыку?");
             response.Response.Buttons = new[]

@@ -18,7 +18,7 @@ namespace hello.lib.processors
         {
         }
         
-        public AliceResponse Process(AliceRequest request, RaccoonState state)
+        public AliceResponse Process(AliceRequest request, LemurState state)
         {
             var image =  GetNext();
             var result = request.Reply(image);

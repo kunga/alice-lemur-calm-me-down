@@ -4,7 +4,7 @@ namespace hello.lib.processors
 {
     public class WelcomeProcessor : IProcessor
     {
-        public AliceResponse Process(AliceRequest request, RaccoonState state)
+        public AliceResponse Process(AliceRequest request, LemurState state)
         {
             return request.Reply("Привет, я лемур узбого+ин, расскажи мне что с тобой случилось, и я постараюсь поддержать тебя.");
         }

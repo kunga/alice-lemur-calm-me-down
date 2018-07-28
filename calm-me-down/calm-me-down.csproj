@@ -154,7 +154,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\RaccoonController.cs" />
+    <Compile Include="Controllers\LemurController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -177,8 +177,8 @@
     <Compile Include="lib\data\QuotesReader.cs" />
     <Compile Include="lib\processors\SongsProcessor.cs" />
     <Compile Include="lib\processors\WelcomeProcessor.cs" />
-    <Compile Include="lib\processors\RacconProcessor.cs" />
-    <Compile Include="lib\RaccoonState.cs" />
+    <Compile Include="lib\processors\LemurProcessor.cs" />
+    <Compile Include="lib\LemurState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

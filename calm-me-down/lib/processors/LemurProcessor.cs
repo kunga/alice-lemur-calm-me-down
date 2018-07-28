@@ -3,11 +3,11 @@ using hello.lib.alice;
 
 namespace hello.lib.processors
 {
-    public class RacconProcessor : LoopedProcessor<IProcessor>
+    public class LemurProcessor : LoopedProcessor<IProcessor>
     {
-        private readonly RaccoonState state = new RaccoonState();
+        private readonly LemurState state = new LemurState();
 
-        public RacconProcessor()
+        public LemurProcessor()
             : base(new List<IProcessor> { new QuotesProcessor(), new ImagesProcessor(), new SongsProcessor()})
         {
         }

@@ -13,7 +13,7 @@ namespace hello.lib.processors
         private readonly Random random = new Random();
         private readonly FinishingQuestionsProcessor finishingQuestionsProcessor = new FinishingQuestionsProcessor();
 
-        public AliceResponse Process(AliceRequest request, RaccoonState state)
+        public AliceResponse Process(AliceRequest request, LemurState state)
         {
             var response = request.Reply($"{GetBestQuote(request.Request.OriginalUtterance)} - - - - - - - - - \n{finishingQuestionsProcessor.GetNext()}");
             state.AskedFinishQuestion = true;
