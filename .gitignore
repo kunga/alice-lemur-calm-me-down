@@ -260,3 +260,4 @@ paket-files/
 __pycache__/
 *.pyc
 /calm-me-down/Properties/PublishProfiles/calm-me-down20180728091200 - Web Deploy.pubxml
+/calm-me-down/Properties/PublishProfiles/
